@@ -18,6 +18,15 @@ from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.optimizers import RMSprop
+from keras.models import load_model
+import os
+from datetime import datetime
+
+print(os.getcwd())
+path="C:/Users/Fabio Roncato/Documents/project/example-keras_mnist_mlp"
+os.chdir(path)
+print(os.getcwd())
+
 
 batch_size = 128
 num_classes = 10
@@ -48,6 +57,8 @@ model.add(Dense(num_classes, activation='softmax'))
 
 model.summary()
 
+print("Start: " + str(datetime.now()))
+
 model.compile(loss='categorical_crossentropy',
               optimizer=RMSprop(),
               metrics=['accuracy'])
@@ -58,5 +69,14 @@ history = model.fit(x_train, y_train,
                     verbose=1,
                     validation_data=(x_test, y_test))
 score = model.evaluate(x_test, y_test, verbose=0)
+
+print("End: " + str(datetime.now()))
+
 print('Test loss:', score[0])
-print('Test accuracy:', score[1]
+print('Test accuracy:', score[1])
+
+#save the model
+model.save('my_keras_minst_mpl.h5')  # creates a HDF5 file
+
+# load the model
+#model = load_model('my_keras_minst_mpl.h5')
